@@ -5,4 +5,12 @@
 
 .notes-container
   - @notes.each do |note|
-    = note.content
+    %article{:class => note.complete ? 'complete' : '' }
+      %p
+        = note.content
+        %span
+          %a{:href => "/#{note.id}"} [Edit]
+      %p{:class => 'links'}
+        %a{:href => "/#{note.id}/complete"} [Complete]
+      %p{:class => 'meta'}
+        created: "#{note.created_at}"
