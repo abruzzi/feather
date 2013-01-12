@@ -10,5 +10,10 @@ get '/' do
 end
 
 post '/' do
-    'no post by now'
+    note = Note.new
+    note.content = params[:content]
+    note.created_at = Time.now
+    note.updated_at = Time.now
+    note.save
+    redirect '/'
 end
