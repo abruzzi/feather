@@ -1,16 +1,15 @@
 %section#add
   %form{:action => '/', :method => 'POST'}
     %textarea{:name => 'content', :placeholder => 'note here...'}
-    %input{:type => 'submit', :value => 'note'}
+    %input.btn{:type => 'submit', :value => 'note'}
 
 .notes-container
   - @notes.each do |note|
-    %article{:class => note.complete ? 'complete' : '' }
-      %p
-        = note.content
-        %span
-          %a{:href => "/#{note.id}"} [Edit]
-      %p{:class => 'links'}
-        %a{:href => "/#{note.id}/complete"} [Complete]
-      %p{:class => 'meta'}
+    .well{:class => note.complete ? 'alert-success' : 'alert-info'}
+      = note.content
+      %p{:class => 'muted'}
         created: "#{note.created_at}"
+      .pull-right
+        %a{:href => "/#{note.id}"} [Edit]
+        %a{:href => "/#{note.id}/delete"} [Delete]
+        %a{:href => "/#{note.id}/complete"} [Complete]

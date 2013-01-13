@@ -37,11 +37,17 @@ post '/:id' do
     redirect '/'
 end
 
-delete '/:id' do
+get '/:id/delete' do
     note = Note.get params[:id]
     note.destroy
     redirect '/'
 end
+
+# delete '/:id' do
+#     note = Note.get params[:id]
+#     note.destroy
+#     redirect '/'
+# end
 
 get '/:id/complete' do
     note = Note.get params[:id]
