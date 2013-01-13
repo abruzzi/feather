@@ -1,0 +1,6 @@
+.login-form
+  %form.form-signin{:action => '/login', :method => 'POST'}
+    %h2.form-signin-heading Please sign in
+    %input.input-block-level{:type => 'text', :placeholder => 'Email address'}
+    %input.input-block-level{:type => 'password', :placeholder => 'Password'}
+    %button.btn.btn-large.btn-primary{:type => 'submit'} Sign in

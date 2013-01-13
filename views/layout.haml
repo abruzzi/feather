@@ -2,8 +2,17 @@
 %html
   %head
     %title
-    %link{:rel => 'stylesheet', :href => 'bootstrap/css/bootstrap.min.css'}
+    %link{:rel => 'stylesheet', :href => 'bootstrap/css/bootstrap.css'}
+    %link{:rel => 'stylesheet', :href => 'bootstrap/css/bootstrap-responsive.css'}
     %link{:rel => 'stylesheet', :href => 'css/style.css'}
   %body
-    .main-container
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          .brand{:href => '/'} Notes
+          .nav-collapse.collapse
+            %ul.nav
+              %li.active
+                %a{:href => '/'} Notes
+    .container
       = yield

@@ -1,15 +1,17 @@
-%section#add
-  %form{:action => '/', :method => 'POST'}
-    %textarea{:name => 'content', :placeholder => 'note here...'}
-    %input.btn{:type => 'submit', :value => 'note'}
+.content
+  %h2 Add notes here for remind
+  %section#add
+    %form{:action => '/', :method => 'POST'}
+      %textarea{:name => 'content', :placeholder => 'note here...'}
+      %input.btn.btn-primary{:type => 'submit', :value => 'note'}
 
-.notes-container
-  - @notes.each do |note|
-    .well{:class => note.complete ? 'alert-success' : 'alert-info'}
-      = note.content
-      %p{:class => 'muted'}
-        created: "#{note.created_at}"
-      .pull-right
-        %a{:href => "/#{note.id}"} [Edit]
-        %a{:href => "/#{note.id}/delete"} [Delete]
-        %a{:href => "/#{note.id}/complete"} [Complete]
+  .notes-container
+    - @notes.each do |note|
+      .well{:class => note.complete ? 'alert-success' : 'alert-info'}
+        = note.content
+        %p{:class => 'muted'}
+          created: "#{note.created_at}"
+        .pull-right
+          %a{:href => "/#{note.id}"} [Edit]
+          %a{:href => "/#{note.id}/delete"} [Delete]
+          %a{:href => "/#{note.id}/complete"} [Complete]

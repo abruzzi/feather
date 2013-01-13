@@ -9,6 +9,10 @@ get '/' do
     haml :home
 end
 
+get '/login' do
+    haml :login
+end
+
 post '/' do
     note = Note.new
     note.content = params[:content]
