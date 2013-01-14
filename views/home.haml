@@ -1,7 +1,7 @@
 .content
   %h2 Add notes here for remind
   %section#add
-    %form{:action => '/', :method => 'POST'}
+    %form{:action => '/notes', :method => 'POST'}
       %textarea{:name => 'content', :placeholder => 'note here...'}
       %input.btn.btn-primary{:type => 'submit', :value => 'note'}
 
@@ -12,6 +12,6 @@
         %p{:class => 'muted'}
           created: "#{note.created_at}"
         .pull-right
-          %a{:href => "/#{note.id}"} [Edit]
-          %a{:href => "/#{note.id}/delete"} [Delete]
-          %a{:href => "/#{note.id}/complete"} [Complete]
+          %a{:href => "/notes/#{note.id}"} [Edit]
+          %a{:href => "/notes/#{note.id}/delete"} [Delete]
+          %a{:href => "/notes/#{note.id}/complete"} [Complete]

@@ -1,5 +1,3 @@
-DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/notes.db")
-
 class Note
     include DataMapper::Resource
     property :id, Serial
@@ -7,6 +5,5 @@ class Note
     property :complete, Boolean, :required => true, :default => false
     property :created_at, DateTime
     property :updated_at, DateTime
+    belongs_to :user
 end
-
-DataMapper.finalize.auto_upgrade!
