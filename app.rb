@@ -2,14 +2,18 @@ require 'sinatra'
 require 'haml'
 require 'data_mapper'
 
-require 'json'
-
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/notes.db")
 
 require './lib/user.rb'
 require './lib/notes.rb'
 
 DataMapper.finalize.auto_upgrade!
+
+require './lib/helper/mobile.rb'
+
+before do
+    mobile_request? ? @mobile = ".mobile" : @mobile = ""
+end
 
 enable :sessions
 
@@ -22,7 +26,8 @@ get '/' do
 end
 
 get '/login' do
-    haml :login
+    #haml :login
+    deliver :login
 end
 
 get '/logout' do
@@ -48,7 +53,8 @@ get '/notes' do
     user = session[:user]
     if user
         @notes = Note.all(:user => user, :order => :id.desc) || []
-        haml :home
+        #haml :home
+        deliver :home
     else
         redirect '/login'
     end
@@ -66,20 +72,6 @@ post '/notes' do
         note.user = user 
         note.save
         redirect '/notes'
-    end
-end
-
-# goto edit page for edit an existing note
-get '/notes/:id' do
-    user = session[:user]
-    if user == nil
-        redirect '/login'
-    end
-    @note = Note.get params[:id]
-    if @note.user.id == user.id
-        haml :edit
-    else
-        not_found 
     end
 end
 
