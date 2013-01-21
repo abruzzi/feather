@@ -1,7 +1,7 @@
 .content
   %h2 Add notes here
-  %section#add
+  %section
     %textarea#note{:name => 'content', :placeholder => 'note here...'}
-    %input#submit.ui-btn-hidden{:type => 'button', :'data-theme' => 'a', :value => 'noting'}
+    %a#submit{:'data-role' => 'button', :'data-theme' => 'a', :rel => 'external'} Noting
 
   .notes-container#notes-container
