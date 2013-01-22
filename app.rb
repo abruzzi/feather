@@ -1,4 +1,6 @@
 require 'sinatra'
+require 'sinatra_warden'
+
 require 'haml'
 require 'data_mapper'
 

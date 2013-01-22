@@ -1,6 +1,8 @@
 source :rubygems
 
 gem 'sinatra'
+gem 'sinatra_warden'
+
 gem 'sqlite3'
 gem 'datamapper'
 gem 'dm-sqlite-adapter'
