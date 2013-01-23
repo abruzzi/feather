@@ -52,29 +52,53 @@ GEM
       dm-core (~> 1.2.0)
     do_sqlite3 (0.10.12)
       data_objects (= 0.10.12)
+    faraday (0.8.4)
+      multipart-post (~> 1.1)
     fastercsv (1.5.5)
     haml (3.1.7)
+    hashie (1.2.0)
+    httpauth (0.2.0)
     json (1.7.6)
     json_pure (1.7.6)
+    jwt (0.1.5)
+      multi_json (>= 1.0)
     multi_json (1.5.0)
+    multipart-post (1.1.5)
+    oauth2 (0.8.0)
+      faraday (~> 0.8)
+      httpauth (~> 0.1)
+      jwt (~> 0.1.4)
+      multi_json (~> 1.0)
+      rack (~> 1.2)
+    omniauth (1.1.1)
+      hashie (~> 1.2)
+      rack
+    omniauth-github (1.0.3)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
+    omniauth-oauth2 (1.1.1)
+      oauth2 (~> 0.8.0)
+      omniauth (~> 1.0)
+    omniauth-openid (1.0.1)
+      omniauth (~> 1.0)
+      rack-openid (~> 1.3.1)
     rack (1.4.4)
+    rack-openid (1.3.1)
+      rack (>= 1.1.0)
+      ruby-openid (>= 2.1.8)
     rack-protection (1.3.2)
       rack
+    ruby-openid (2.2.2)
     shotgun (0.9)
       rack (>= 1.0)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
       tilt (~> 1.3, >= 1.3.3)
-    sinatra_warden (0.3.2)
-      sinatra (>= 1.0.0)
-      warden (~> 1.0)
     sqlite3 (1.3.7)
     stringex (1.5.1)
     tilt (1.3.3)
     uuidtools (2.1.3)
-    warden (1.2.1)
-      rack (>= 1.0)
 
 PLATFORMS
   ruby
@@ -84,7 +108,9 @@ DEPENDENCIES
   datamapper
   dm-sqlite-adapter
   haml
+  omniauth
+  omniauth-github
+  omniauth-openid
   shotgun
   sinatra
-  sinatra_warden
   sqlite3

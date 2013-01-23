@@ -15,6 +15,6 @@
               %li.active
                 %a{:href => '/'} Notes
           .pull-right.btn
-            = session[:user] ? session[:user].name : "nobody" 
+            = session[:user] ? session[:user][:name] : "login?" 
     .container
       = yield

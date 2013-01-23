@@ -1,5 +1,7 @@
 require 'sinatra'
-require 'sinatra_warden'
+require 'omniauth-openid'
+require 'omniauth-github'
+require 'openid/store/filesystem'
 
 require 'haml'
 require 'data_mapper'
@@ -12,6 +14,7 @@ require './lib/user.rb'
 require './lib/notes.rb'
 
 DataMapper.finalize.auto_upgrade!
+
 
 before do
     content_type :json

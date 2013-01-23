@@ -1,7 +1,9 @@
 source :rubygems
 
 gem 'sinatra'
-gem 'sinatra_warden'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-openid'
 
 gem 'sqlite3'
 gem 'datamapper'
