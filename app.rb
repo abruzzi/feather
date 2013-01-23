@@ -1,19 +1,19 @@
 require 'sinatra'
-require 'omniauth-openid'
 require 'omniauth-github'
-require 'openid/store/filesystem'
 
 require 'haml'
 require 'data_mapper'
 
 require 'json'
 
-DataMapper::setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/notes.db")
-
 require './lib/user.rb'
 require './lib/notes.rb'
 
-DataMapper.finalize.auto_upgrade!
+configure do
+    DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/notes.db")
+
+    DataMapper.finalize.auto_upgrade!
+end
 
 
 before do

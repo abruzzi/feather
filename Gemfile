@@ -1,15 +1,12 @@
 source :rubygems
 
 gem 'sinatra'
+gem 'haml'
+
 gem 'omniauth'
 gem 'omniauth-github'
-gem 'omniauth-openid'
 
 gem 'datamapper'
-
-gem 'builder'
-
-gem 'haml'
 
 group :production do
     gem 'pg'

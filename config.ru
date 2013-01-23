@@ -1,14 +1,12 @@
-require './app'
+require 'sinatra'
+require 'omniauth-github'
+
+require 'haml'
 
 module Feather
     class NoteApplication < Sinatra::Base
         use Rack::Session::Cookie
         use OmniAuth::Builder do
-            # provider :open_id, :store => OpenID::Store::Filesystem.new('/tmp')
-            # provider :open_id, 
-            #     :name => 'google', 
-            #     :store => OpenID::Store::Filesystem.new('/tmp'),
-            #     :identifier => 'https://www.google.com/accounts/o8/id' 
             provider :github, 'a5e58cdb3b2c6bebbdb7', '30ebed2a49aef7be26e6866caa3da619073fe951',
                 scope: "user,repo,gist"
         end
