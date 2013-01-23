@@ -63,6 +63,19 @@ module Feather
             "error"
         end
 
+        post '/users' do
+            @user = User.new
+            @user.name = params[:name]
+            @user.email = params[:email]
+            @user.password = 'pa$$w0rd'
+            
+            if @user.save
+                {:user => @user, :status => 'success'}.to_json
+            else
+                {:user => @user, :status => 'failure'}.to_json
+            end
+        end
+
         # get all notes belong to a user
         get '/users/:userid/notes', :check => :valid? do
             if @current_user[:id] == params[:userid]
