@@ -8,7 +8,7 @@ require 'data_mapper'
 
 require 'json'
 
-DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/notes.db")
+DataMapper::setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/notes.db")
 
 require './lib/user.rb'
 require './lib/notes.rb'

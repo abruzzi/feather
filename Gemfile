@@ -7,7 +7,8 @@ gem 'omniauth-openid'
 
 gem 'sqlite3'
 gem 'datamapper'
-gem 'dm-sqlite-adapter'
+gem 'dm-sqlite-adapter', :group => development
+gem 'dm-postgres-adapter', :group => production
 
 gem 'builder'
 
