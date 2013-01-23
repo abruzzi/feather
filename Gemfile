@@ -6,13 +6,17 @@ gem 'omniauth-github'
 gem 'omniauth-openid'
 
 gem 'datamapper'
-gem 'dm-sqlite-adapter', :group => :development
-gem 'dm-postgres-adapter', :group => :production
 
 gem 'builder'
 
 gem 'haml'
 
-group :development do
-  gem 'shotgun'
+group :production do
+    gem 'pg'
+    gem 'dm-postgres-adapter'
+end
+
+group :development, :test do
+    gem 'shotgun'
+    gem 'dm-sqlite-adapter'
 end
