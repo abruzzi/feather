@@ -10,17 +10,18 @@ require './lib/user.rb'
 require './lib/notes.rb'
 
 configure do
-    DataMapper::Logger.new(STDOUT, :debug)
     DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/feather")
     DataMapper.finalize.auto_upgrade!
 end
 
 module Feather
     class NoteApplication < Sinatra::Base
-        use Rack::Session::Cookie
-        use OmniAuth::Builder do
-            provider :github, 'a5e58cdb3b2c6bebbdb7', '30ebed2a49aef7be26e6866caa3da619073fe951',
-                scope: "user,repo,gist"
+        if not test?
+            use Rack::Session::Cookie, :secret => 's3c23t'
+            use OmniAuth::Builder do
+                provider :github, 'a5e58cdb3b2c6bebbdb7', '30ebed2a49aef7be26e6866caa3da619073fe951',
+                    scope: "user,repo,gist"
+            end
         end
 
         # auth callback
@@ -28,7 +29,6 @@ module Feather
             send method, '/auth/:provider/callback' do
                 auth = request.env['omniauth.auth'].info
                 session[:user] = {:name => auth.name, :email => auth.email}
-                @current_user = User.first(:email => session[:user][:email])
             end
         end
 
@@ -50,11 +50,13 @@ module Feather
             def valid?
                 session[:user] != nil
             end
+
+            def current_user
+                User.first(:email => session[:user][:email])
+            end
         end
 
         before do
-            session[:user] = {:name => 'juntao', :email => 'juntao.qiu@gmail.com'}
-            @current_user = User.first(:email => 'juntao.qiu@gmail.com')
             content_type :json
         end
 
@@ -66,7 +68,7 @@ module Feather
             "error"
         end
 
-        post '/users' do
+        post '/users' do# {{{
             jdata = JSON.parse(request.body.read)
             @user = User.new(jdata)
 
@@ -75,12 +77,12 @@ module Feather
             else
                 {:user => @user, :status => 'failure'}.to_json
             end
-        end
+        end# }}}
 
         # get all notes belong to a user
         get '/users/:userid/notes', :check => :valid? do
             user = User.get params[:userid]
-            if @current_user == user
+            if current_user == user
                 notes = Note.all(:user => user, :order => :id.desc) || []
                 notes.to_json
             end
@@ -89,7 +91,7 @@ module Feather
         # get a signle note belongs to a user
         get '/users/:userid/notes/:noteid', :check => :valid? do
             user = User.get params[:userid]
-            if @current_user == user
+            if current_user == user
                 user = User.get params[:userid]
                 note = Note.all :user => user, :id => params[:noteid]
                 note.to_json
@@ -99,7 +101,7 @@ module Feather
         # create a new note for user
         post '/users/:userid/notes', :check => :valid? do
             user = User.get params[:userid]
-            if @current_user == user
+            if current_user == user
                 data = JSON.parse(request.body.read)
                 data = data.merge(:complete => false, :created_at => Time.now, :updated_at => Time.now, :user => user)
 
@@ -116,7 +118,7 @@ module Feather
         # update an existing note
         put '/users/:userid/notes/:noteid', :check => :valid? do
             user = User.get params[:userid]
-            if @current_user == user
+            if current_user == user
                 note = Note.get params[:noteid]
 
                 data = JSON.parse(request.body.read)
@@ -134,7 +136,7 @@ module Feather
         # delete an existing note
         delete '/users/:userid/notes/:noteid', :check => :valid? do
             user = User.get params[:userid]
-            if @current_user == user
+            if current_user == user
                 note = Note.get params[:noteid]
 
                 if note.destroy
