@@ -10,6 +10,7 @@ require './lib/user.rb'
 require './lib/notes.rb'
 
 configure do
+    DataMapper::Logger.new(STDOUT, :debug)
     DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/feather")
     DataMapper.finalize.auto_upgrade!
 end
@@ -27,7 +28,7 @@ module Feather
             send method, '/auth/:provider/callback' do
                 auth = request.env['omniauth.auth'].info
                 session[:user] = {:name => auth.name, :email => auth.email}
-                @current_user = User.all(:email => session[:user][:email])
+                @current_user = User.first(:email => session[:user][:email])
             end
         end
 
@@ -40,7 +41,7 @@ module Feather
         register do
             def check name
                 condition do
-                    redirect '/login' unless send(name) == true
+                    error 401 unless send(name) == true
                 end
             end
         end
@@ -52,6 +53,8 @@ module Feather
         end
 
         before do
+            session[:user] = {:name => 'juntao', :email => 'juntao.qiu@gmail.com'}
+            @current_user = User.first(:email => 'juntao.qiu@gmail.com')
             content_type :json
         end
 
@@ -64,11 +67,9 @@ module Feather
         end
 
         post '/users' do
-            @user = User.new
-            @user.name = params[:name]
-            @user.email = params[:email]
-            @user.password = 'pa$$w0rd'
-            
+            jdata = JSON.parse(request.body.read)
+            @user = User.new(jdata)
+
             if @user.save
                 {:user => @user, :status => 'success'}.to_json
             else
@@ -78,70 +79,68 @@ module Feather
 
         # get all notes belong to a user
         get '/users/:userid/notes', :check => :valid? do
-            if @current_user[:id] == params[:userid]
-                user = User.get params[:userid]
-                @notes = Note.all(:user => user, :order => :id.desc) || []
-                @notes.to_json
+            user = User.get params[:userid]
+            if @current_user == user
+                notes = Note.all(:user => user, :order => :id.desc) || []
+                notes.to_json
             end
         end
 
         # get a signle note belongs to a user
         get '/users/:userid/notes/:noteid', :check => :valid? do
-            if @current_user[:id] == params[:userid]
+            user = User.get params[:userid]
+            if @current_user == user
                 user = User.get params[:userid]
-                @note = Note.all :user => user, :id => params[:noteid]
-                @note.to_json
+                note = Note.all :user => user, :id => params[:noteid]
+                note.to_json
             end
         end
 
         # create a new note for user
         post '/users/:userid/notes', :check => :valid? do
-            if @current_user[:id] == params[:userid]
-                user = User.get params[:userid]
-                @note = Note.new
-                @note.complete = false
-                @note.content = params[:content]
-                @note.created_at = Time.now
-                @note.updated_at = Time.now
-                @note.user = user 
+            user = User.get params[:userid]
+            if @current_user == user
+                data = JSON.parse(request.body.read)
+                data = data.merge(:complete => false, :created_at => Time.now, :updated_at => Time.now, :user => user)
 
-                if @note.save
-                    {:note => @note, :status => 'success'}.to_json
+                note = Note.new(data)
+
+                if note.save
+                    {:note => note, :status => 'success'}.to_json
                 else
-                    {:note => @note, :status => 'failure'}.to_json
+                    {:note => note, :status => 'failure'}.to_json
                 end
             end
         end
 
         # update an existing note
         put '/users/:userid/notes/:noteid', :check => :valid? do
-            if @current_user[:id] == params[:userid]
-                user = User.get params[:userid]
-                @note = Note.get params[:noteid]
+            user = User.get params[:userid]
+            if @current_user == user
+                note = Note.get params[:noteid]
 
-                @note.complete = params[:complete]
-                @note.content = params[:content]
-                @note.updated_at = Time.now
-                @note.user = user 
+                data = JSON.parse(request.body.read)
+                data = data.merge(:updated_at => Time.now, :user => user)
+                note.attributes = data
 
-                if @note.save
-                    {:note => @note, :status => 'success'}.to_json
+                if note.save
+                    {:note => note, :status => 'success'}.to_json
                 else
-                    {:note => @note, :status => 'failure'}.to_json
+                    {:note => note, :status => 'failure'}.to_json
                 end
             end
         end
 
         # delete an existing note
         delete '/users/:userid/notes/:noteid', :check => :valid? do
-            if @current_user[:id] == params[:userid]
-                user = User.get params[:userid]
-                @note = Note.get params[:noteid]
+            user = User.get params[:userid]
+            if @current_user == user
+                note = Note.get params[:noteid]
 
-                if @note.destroy
-                    {:note => @note, :status => 'success'}.to_json
+                if note.destroy
+                    {:note => note, :status => 'success'}.to_json
                 else
-                    {:note => @note, :status => 'failure'}.to_json
+                    {:note => note, :status => 'failure'}.to_json
                 end
             end
         end
