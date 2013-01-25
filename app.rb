@@ -119,7 +119,6 @@ module Feather
             if note.save
                 {:note => note, :status => 'success'}.to_json
             else
-                p note.errors
                 {:note => note, :status => 'failure'}.to_json
             end
         end# }}}
@@ -129,9 +128,8 @@ module Feather
             note = Note.get params[:noteid]
             if current_user == note.user
                 if note.destroy
-                    {:note => note, :status => 'success'}.to_json
+                    redirect "/users/#{user.id}/notes"
                 else
-                    p note.errors
                     {:note => note, :status => 'failure'}.to_json
                 end
             end
@@ -152,7 +150,7 @@ module Feather
 
         get '/logout' do
             session.clear
-            redirect '/'
+            redirect '/login'
         end
 
     end

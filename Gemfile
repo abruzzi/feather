@@ -4,6 +4,7 @@ gem 'sinatra'
 gem 'haml'
 
 gem 'rack-contrib'
+gem 'rack-flash3'
 
 gem 'omniauth'
 gem 'omniauth-github'
