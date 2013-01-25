@@ -49,7 +49,6 @@ module Feather
 
         # if auth failure
         get '/auth/failure' do
-            "#{params[:message]}"
             redirect '/'
         end
 
@@ -148,8 +147,7 @@ module Feather
         end
 
         get '/login' do
-            content_type :html
-            haml :auth
+            haml :login
         end
 
         get '/logout' do
