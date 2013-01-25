@@ -8,7 +8,7 @@ FactoryGirl.define do
     end
 
     factory :note, :class => Note do
-        content 'todo'
+        content 'This is a note to remind me to raise up earlier'
         association :user
     end
 end

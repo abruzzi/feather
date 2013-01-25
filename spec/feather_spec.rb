@@ -14,8 +14,9 @@ describe 'Feather' do
 
     it "returns ok when access index" do
         get '/'
-        last_response.status.should == 200
-        last_response.body.should include('index')
+        last_response.status.should == 302
+        follow_redirect!
+        last_request.url.should include('/login')
     end
 
     it "returns not authentication error" do
@@ -27,6 +28,6 @@ describe 'Feather' do
         session[:user] = {:name => 'juntao', :email => 'juntao.qiu@gmail.com'}
         get "/users/#{@note.user.id}/notes", {}, 'rack.session' => session
         last_response.status.should == 200
-        last_response.body.should eql('[{"id":1,"content":"todo","complete":false,"created_at":null,"updated_at":null,"user_id":1}]')
+        last_response.body.should include('This is a note to remind me to raise up earlier')
     end
 end

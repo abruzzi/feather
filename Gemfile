@@ -3,6 +3,8 @@ source :rubygems
 gem 'sinatra'
 gem 'haml'
 
+gem 'rack-flash3'
+
 gem 'omniauth'
 gem 'omniauth-github'
 

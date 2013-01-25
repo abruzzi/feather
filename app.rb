@@ -52,29 +52,21 @@ module Feather
             end
         end
 
-        # get a signle note belongs to a user
-        get '/users/:userid/notes/:noteid', :check => :valid? do
-            user = User.get params[:userid]
-            if current_user == user
-                user = User.get params[:userid]
-                note = Note.all :user => user, :id => params[:noteid]
-                note.to_json
-            end
-        end
-
         # create a new note for user
         post '/users/:userid/notes', :check => :valid? do
             user = User.get params[:userid]
             if current_user == user
-                data = JSON.parse(request.body.read)
-                data = data.merge(:complete => false, :created_at => Time.now, :updated_at => Time.now, :user => user)
-
-                note = Note.new(data)
+                note = Note.new
+                note.content = params[:content]
+                note.complete = false
+                note.created_at = Time.now
+                note.updated_at = Time.now
+                note.user = user
 
                 if note.save
-                    {:note => note, :status => 'success'}.to_json
+                    redirect "/users/#{user.id}/notes"
                 else
-                    {:note => note, :status => 'failure'}.to_json
+                    error 500
                 end
             end
         end
@@ -84,15 +76,14 @@ module Feather
             user = User.get params[:userid]
             if current_user == user
                 note = Note.get params[:noteid]
-
-                data = JSON.parse(request.body.read)
-                data = data.merge(:updated_at => Time.now, :user => user)
-                note.attributes = data
+                note.content = params[:content]
+                note.complete = params[:complete]
+                note.updated_at = Time.now
 
                 if note.save
-                    {:note => note, :status => 'success'}.to_json
+                    redirect "/users/#{user.id}/notes"
                 else
-                    {:note => note, :status => 'failure'}.to_json
+                    error 500
                 end
             end
         end
@@ -104,15 +95,18 @@ module Feather
                 note = Note.get params[:noteid]
 
                 if note.destroy
-                    {:note => note, :status => 'success'}.to_json
+                    redirect "/users/#{user.id}/notes"
                 else
-                    {:note => note, :status => 'failure'}.to_json
+                    error 500
                 end
             end
         end
 
         get '/' do
-            haml :index
+            unless session[:user]
+                redirect '/login'
+            end
+            redirect "/users/#{session[:user].id}/notes"
         end
 
         get '/login' do
@@ -131,27 +125,27 @@ module Feather
             end
         end
 
+        get '/logout' do
+            session.clear
+            redirect '/login'
+        end
+
         get '/signup' do
             haml :signup
         end
 
         post '/signup' do
-            name = params[:email]
-            email = params[:email]
-            password = params[:password]
-            
-            user = User.new(:name => name, :email => email, :password => password)
+            user = User.new
+
+            user.name = params[:email]
+            user.password = params[:password]
+            user.email = params[:email]
+
             if user.save
-                session[:user] = user
-                redirect "/users/#{user.id}/notes"
+                redirect '/'
             else
                 redirect '/signup'
             end
-        end
-
-        get '/logout' do
-            session.clear
-            redirect '/'
         end
 
     end

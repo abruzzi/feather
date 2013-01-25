@@ -1,8 +1,8 @@
 .content
   %h2 Add notes here for remind
   %section#add
-    %form{:action => "/users/#{@current_user.id}/notes", :method => 'POST'}
-      %textarea{:name => 'content', :placeholder => 'note here...'}
+    %form.form-inline{:action => "/users/#{@current_user.id}/notes", :method => 'POST'}
+      %input.input-xxlarge{:type => 'text', :name => 'content', :placeholder => 'note here...'}
       %input.btn.btn-primary{:type => 'submit', :value => 'note'}
 
   .notes-container
