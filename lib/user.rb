@@ -5,4 +5,9 @@ class User
     property :email, String, :format => :email_address, :required => true, :unique => true
     property :password, String, :required => true
     has n, :notes
+
+    def self.authorise email, password
+        user = self.first(:email => email)
+        return !user.nil? && user[:password] == password
+    end
 end

@@ -18,24 +18,6 @@ module Feather
     class NoteApplication < Sinatra::Base
         if not test?
             use Rack::Session::Cookie, :secret => 's3c23t'
-            use OmniAuth::Builder do
-                provider :github, 'a5e58cdb3b2c6bebbdb7', '30ebed2a49aef7be26e6866caa3da619073fe951',
-                    scope: "user,repo,gist"
-            end
-        end
-
-        # auth callback
-        [:get, :post].each do |method|
-            send method, '/auth/:provider/callback' do
-                auth = request.env['omniauth.auth'].info
-                session[:user] = {:name => auth.name, :email => auth.email}
-            end
-        end
-
-        # if auth failure
-        get '/auth/failure' do
-            "#{params[:message]}"
-            redirect '/'
         end
 
         register do
@@ -56,35 +38,17 @@ module Feather
             end
         end
 
-        before do
-            content_type :json
-        end
-
         not_found do
-            "404"
+            haml :not_found
         end
-
-        error do
-            "error"
-        end
-
-        post '/users' do# {{{
-            jdata = JSON.parse(request.body.read)
-            @user = User.new(jdata)
-
-            if @user.save
-                {:user => @user, :status => 'success'}.to_json
-            else
-                {:user => @user, :status => 'failure'}.to_json
-            end
-        end# }}}
 
         # get all notes belong to a user
         get '/users/:userid/notes', :check => :valid? do
             user = User.get params[:userid]
             if current_user == user
-                notes = Note.all(:user => user, :order => :id.desc) || []
-                notes.to_json
+                @current_user = current_user
+                @notes = Note.all(:user => user, :order => :id.desc) || []
+                haml :home
             end
         end
 
@@ -148,13 +112,41 @@ module Feather
         end
 
         get '/' do
-            content_type :html
             haml :index
         end
 
         get '/login' do
-            content_type :html
-            haml :auth
+            haml :login
+        end
+
+        post '/login' do
+            email = params[:email]
+            password = params[:password]
+            if User.authorise(email, password)
+                user = User.first(:email => email)
+                session[:user] = user
+                redirect "/users/#{session[:user].id}/notes"
+            else
+                redirect '/login'
+            end
+        end
+
+        get '/signup' do
+            haml :signup
+        end
+
+        post '/signup' do
+            name = params[:email]
+            email = params[:email]
+            password = params[:password]
+            
+            user = User.new(:name => name, :email => email, :password => password)
+            if user.save
+                session[:user] = user
+                redirect "/users/#{user.id}/notes"
+            else
+                redirect '/signup'
+            end
         end
 
         get '/logout' do
