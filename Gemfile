@@ -14,6 +14,8 @@ gem 'pg'
 gem 'dm-postgres-adapter'
 
 group :test do
+    gem 'sqlite3'
+    gem 'dm-sqlite-adapter'
     gem 'rspec'
     gem 'rack-test'
     gem 'factory_girl'
