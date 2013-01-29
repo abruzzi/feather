@@ -2,16 +2,20 @@
   %h2 Add notes here for remind
   %section#add
     %form.form-inline{:action => "/users/#{@current_user.id}/notes", :method => 'POST'}
-      %input.input-xxlarge{:type => 'text', :name => 'content', :placeholder => 'note here...'}
+      %textarea.input-xxlarge{:type => 'text', :name => 'content', :placeholder => 'note here...'}
       %input.btn.btn-primary{:type => 'submit', :value => 'note'}
 
   .notes-container
     - @notes.each do |note|
       .well{:class => note.complete ? 'alert-success' : 'alert-info'}
-        = note.content
+        %p
+          = note.content
         %p{:class => 'muted'}
           created: "#{note.created_at}"
         .pull-right
-          %a{:href => "/notes/#{note.id}"} [Edit]
-          %a{:href => "/notes/#{note.id}/delete"} [Delete]
-          %a{:href => "/notes/#{note.id}/complete"} [Complete]
+          %a{:href => "/notes/#{note.id}/delete"}
+            %i.icon-remove
+            [Delete]
+          %a{:href => "/notes/#{note.id}/complete"}
+            %i.icon-ok
+            [Complete]

@@ -103,10 +103,11 @@ module Feather
         end
 
         get '/' do
-            unless session[:user]
-                redirect '/login'
-            end
-            redirect "/users/#{session[:user].id}/notes"
+            haml :index
+            # unless session[:user]
+            #     redirect '/login'
+            # end
+            # redirect "/users/#{session[:user].id}/notes"
         end
 
         get '/login' do
@@ -130,9 +131,9 @@ module Feather
             redirect '/login'
         end
 
-        get '/signup' do
-            haml :signup
-        end
+        # get '/signup' do
+        #     haml :signup
+        # end
 
         post '/signup' do
             user = User.new
