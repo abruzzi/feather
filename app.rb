@@ -12,6 +12,7 @@ require './lib/user.rb'
 require './lib/notes.rb'
 
 configure do
+    # DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/feather")
     DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/notes.db")
     DataMapper.finalize.auto_upgrade!
 end

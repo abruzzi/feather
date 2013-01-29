@@ -1,0 +1,48 @@
+.navbar .brand {
+    margin-left: 20px;
+}
+
+#index-container{
+    position: relative;
+    z-index: 1;
+}
+
+#index-container:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url(../images/feather.jpg) no-repeat left top;
+    background-size: 100%;
+    height: 600px;
+    width: 100%;
+    opacity: 0.5;
+}
+
+#dialogs {
+    float: right;
+    background: rgba(57,60,61,0.8);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.8);
+    margin-top: 130px;
+    margin-right: 100px;
+}
+
+#dialogs ul {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#dialogs ul li{
+    width: 50%;
+}
+
+.signup-form {
+    display: none;
+}
