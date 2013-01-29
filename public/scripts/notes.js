@@ -1,47 +1,23 @@
 $(document).ready(function(){
-    function render_notes(){
-        var container = $("#notes-container");
-        $.ajax({
-            url: '/notes.json',
-            type: 'GET',
-            success: function(notes){
+    $('#login-dialog').dialog({
+        autoOpen: false,
+        height: 300,
+        width: 400,
+        modal: true
+    });
 
-                var ul = $("<ul></ul>").attr({
-                    "data-role": "listview",
-                    "data-inset": "true"
-                });
+    $('#signup-dialog').dialog({
+        autoOpen: false,
+        height: 350,
+        width: 400,
+        modal: true,
+    });
 
-                for(var p in notes){
-                    var note = notes[p];
-                    var li = $("<li></li>").addClass('ui-btn');
-                    var content = $("<h3></h3>").text(note.content);
-                    var timestamp = $("<p></p>").text('created at: '+note.created_at);
-                    content.appendTo(li);
-                    timestamp.appendTo(li);
-                    li.appendTo(ul);
-                }
+    $('a#login').click(function(){
+        $('#login-dialog').dialog('open');
+    });
 
-                container.html('').append(ul);
-            },
-            error: function(error){
-                container.html(error); 
-            }
-        })
-    }
-
-    $('#submit').click(function(){
-        alert('clicked');
-        var content = $("#note").val();
-        $.ajax({
-            url: '/notes',
-            type: 'POST',
-            data: {'content': content},
-            success: function(data){
-                render_notes(); 
-            },
-            error: function(error){
-            
-            }
-        })
-    }); 
+    $('a#signup').click(function(){
+        $('#signup-dialog').dialog('open');
+    });
 });
