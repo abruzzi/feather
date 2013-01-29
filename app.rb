@@ -10,7 +10,7 @@ require './lib/user.rb'
 require './lib/notes.rb'
 
 configure do
-    DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/feather")
+    DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/notes.db")
     DataMapper.finalize.auto_upgrade!
 end
 
@@ -28,7 +28,12 @@ module Feather
         [:get, :post].each do |method|
             send method, '/auth/:provider/callback' do
                 auth = request.env['omniauth.auth'].info
-                session[:user] = {:name => auth.name, :email => auth.email}
+                session[:user] = User.first_or_create({:email => auth.email}, {
+                    :name => auth.name,
+                    :email => auth.email
+                })
+                
+                redirect '/'
             end
         end
 
@@ -52,7 +57,7 @@ module Feather
             end
 
             def current_user
-                User.first(:email => session[:user][:email])
+                session[:user]
             end
         end
 
@@ -67,17 +72,6 @@ module Feather
         error do
             "error"
         end
-
-        post '/users' do# {{{
-            jdata = JSON.parse(request.body.read)
-            @user = User.new(jdata)
-
-            if @user.save
-                {:user => @user, :status => 'success'}.to_json
-            else
-                {:user => @user, :status => 'failure'}.to_json
-            end
-        end# }}}
 
         # get all notes belong to a user
         get '/users/:userid/notes', :check => :valid? do
@@ -148,8 +142,12 @@ module Feather
         end
 
         get '/' do
-            content_type :html
-            haml :index
+            if current_user != nil
+                content_type :html
+                haml :index
+            else
+                redirect '/login'
+            end
         end
 
         get '/login' do
