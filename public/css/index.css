@@ -35,12 +35,27 @@
     margin-right: 100px;
 }
 
-#dialogs ul {
+#dialogs .dialog-tabs {
+    border-bottom: none;
+}
+
+#dialogs .dialog-tabs a{
     background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+    margin-right: 0;
+    border: none;
+    border-radius: 0 0 0 0;
 }
 
 #dialogs ul li{
     width: 50%;
+}
+
+#dialogs .dialog-tabs .active a{
+    background-color: transparent;
 }
 
 .signup-form {
