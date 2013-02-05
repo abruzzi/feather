@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'omniauth-github'
 
+require 'rack/contrib'
+
 require 'haml'
 require 'data_mapper'
 
@@ -16,11 +18,13 @@ end
 
 module Feather
     class NoteApplication < Sinatra::Base
+        use Rack::PostBodyContentTypeParser
+
         if not test?
             use Rack::Session::Cookie, :secret => 's3c23t'
             use OmniAuth::Builder do
                 provider :github, 'a5e58cdb3b2c6bebbdb7', 
-                    '30ebed2a49aef7be26e6866caa3da619073fe951',
+                    'f8aa1d494bc731f448679620d8bd8222b3285bbf',
                     scope: "user,repo,gist"
             end
         end
@@ -29,8 +33,12 @@ module Feather
         [:get, :post].each do |method|
             send method, '/auth/:provider/callback' do
                 auth = request.env['omniauth.auth'].info
-                session[:user] = User.first_or_create({:email => auth.email}, {
-                    :name => auth.name,
+
+                session[:user] = auth.email
+                name = auth.name || auth.nickname
+
+                User.first_or_create({:email => auth.email}, {
+                    :name => name,
                     :email => auth.email
                 })
                 
@@ -59,7 +67,7 @@ module Feather
             end
 
             def current_user
-                session[:user]
+                User.first(:email => session[:user])
             end
         end
 
@@ -89,17 +97,15 @@ module Feather
 
         # create a new note for user
         post '/notes', :check => :valid? do
-            data = JSON.parse(request.body.read)
-            data = data.merge(:complete => false, 
-                              :created_at => Time.now, 
-                              :updated_at => Time.now, 
+            note = Note.create(:complete => params[:complete], 
+                              :content => params[:content],
+                              :created_at => Time.now,
+                              :updated_at => Time.now,
                               :user => current_user)
-
-            note = Note.new(data)
-
             if note.save
                 {:note => note, :status => 'success'}.to_json
             else
+                p note.errors
                 {:note => note, :status => 'failure'}.to_json
             end
         end
@@ -108,14 +114,16 @@ module Feather
         put '/notes/:noteid', :check => :valid? do
             note = Note.get params[:noteid]
 
-            data = JSON.parse(request.body.read)
-            data = data.merge(:updated_at => Time.now, 
-                              :user => current_user)
-            note.attributes = data
+            p params
+            note.content = params[:content] || note.content
+            note.complete = params[:complete] || note.complete
+            note.updated_at = Time.now
+            note.user = current_user
 
             if note.save
                 {:note => note, :status => 'success'}.to_json
             else
+                p note.errors
                 {:note => note, :status => 'failure'}.to_json
             end
         end
@@ -127,6 +135,7 @@ module Feather
                 if note.destroy
                     {:note => note, :status => 'success'}.to_json
                 else
+                    p note.errors
                     {:note => note, :status => 'failure'}.to_json
                 end
             end
