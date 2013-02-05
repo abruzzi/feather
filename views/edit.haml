@@ -1,7 +1,0 @@
-- if @note
-  %form{:action => "/notes/#{@note.id}", :method => 'POST', :id => 'edit'}
-    %textarea{:name => 'content'}
-      = @note.content
-    %input{:type => 'checkbox', :name => 'complete', :checked => @note.complete} Complete?
-    %input.btn{:type => 'submit'}
-

@@ -137,16 +137,12 @@ module Feather
         end# }}}
 
         get '/' do
+            content_type :html
             if current_user != nil
-                content_type :html
-                haml :index
+                redirect '/notes'
             else
-                redirect '/login'
+                haml :index
             end
-        end
-
-        get '/login' do
-            haml :login
         end
 
         get '/logout' do

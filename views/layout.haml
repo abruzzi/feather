@@ -16,7 +16,6 @@
       .navbar-inner
         .container
           %a.icon-feather.brand{:href => '/'} Notes
-          %a.brand{:href => '/'} Notes
           .btn-group.pull-right
             %a.btn.dropdown-toggle{:href => '#',  "data-toggle" => "dropdown"}
               %i.icon-user
@@ -28,8 +27,6 @@
               %li.divider
               %li
                 %a{:href => '/logout'} Logout
-            %a.brand{:href => '#', :id => 'login'} Login
-            %a.brand{:href => '#', :id => 'signup'} Signup
     .container
       = yield
 
