@@ -13,28 +13,16 @@ body {
     width: 100%;
 }
 
-.form-signin {
-    max-width: 250px;
-    padding: 19px 29px 29px;
-    margin: 10px 0;
+.navbar-inner {
+    height: 46px;
+    background-color: #252517;
 }
 
-.form-signin .submit-btn {
-    width: 100%;
-    font-size: 16px;
-    height: 36px;
+.navbar-inner .brand{
+    line-height: 26px;
+    color: #fff;
 }
 
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-    margin-bottom: 10px;
+.navbar-inner .brand:hover{
+    color: #999;
 }
-
-.form-signin input[type="text"],
-.form-signin input[type="password"] {
-    font-size: 16px;
-    height: auto;
-    margin-bottom: 15px;
-    padding: 7px 9px;
-}
-
