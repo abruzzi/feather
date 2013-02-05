@@ -1,18 +1,10 @@
 #index-container
   #dialogs
-    %ul.nav.nav-tabs.dialog-tabs
-      %li#login-dialog.active{:title => 'Login'}
-        %a{:href => "#"}Login
-      %li#signup-dialog{:title => 'Sign Up'}
-        %a{:href => "#"}Sign Up
-    .login-form
-      %form.form-signin{:action => '/login', :method => 'POST'}
-        %input.input-block-level{:type => 'text', :name => 'email', :placeholder => 'Email address'}
-        %input.input-block-level{:type => 'password', :name => 'password', :placeholder => 'Password'}
-        %button.btn.btn-primary.submit-btn{:type => 'submit'} Login
-    .signup-form
-      %form.form-signin{:action => '/signup', :method => 'POST'}
-        %input.input-block-level{:type => 'text', :name => 'email', :placeholder => 'Email address'}
-        %input.input-block-level{:type => 'password', :name => 'password', :placeholder => 'Password'}
-        %input.input-block-level{:type => 'password', :name => 'password-confirm', :placeholder => 'Confirm Password'}
-        %button.btn.btn-primary.submit-btn{:type => 'submit'} Sign up
+    %span Signin with
+    %ul.signin
+      %li.btn.btn-info 
+        %img{:src => '/images/github.png'} signin with 
+        %b Github
+      %li.btn.btn-info
+        %img{:src => '/images/google.png'} signin with
+        %b Google

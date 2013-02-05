@@ -17,9 +17,9 @@
     right: 0;
     background: url(../images/feather.jpg) no-repeat left top;
     background-size: 100%;
-    height: 600px;
+    height: 700px;
     width: 100%;
-    opacity: 0.5;
+    /* opacity: 0.5; */
 }
 
 #dialogs {
@@ -33,31 +33,26 @@
     border: 1px solid rgba(0,0,0,0.8);
     margin-top: 130px;
     margin-right: 100px;
-}
-
-#dialogs .dialog-tabs {
-    border-bottom: none;
-}
-
-#dialogs .dialog-tabs a{
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    padding: 20px;
     font-size: 16px;
-    line-height: 26px;
-    text-align: center;
-    margin-right: 0;
-    border: none;
-    border-radius: 0 0 0 0;
+    color: #fff;
+}
+
+#dialogs span{
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+#dialogs ul{
+    list-style: none;
 }
 
 #dialogs ul li{
-    width: 50%;
+    display: block;
+    margin: 16px 0;
 }
 
-#dialogs .dialog-tabs .active a{
-    background-color: transparent;
-}
-
-.signup-form {
-    display: none;
+#dialogs img{
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
 }
