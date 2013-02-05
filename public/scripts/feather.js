@@ -2,9 +2,11 @@ $(document).ready(function(){
     var container = $("#content");
     var notes = new Feather.Notes();
     
-    var view = new Feather.NotesView({
-        collection: notes
+    notes.fetch({
+        success: function(){
+            container.append(new Feather.NotesView({
+                collection: notes
+            }).el);
+        }
     });
-
-    container.append(view.el);
 });

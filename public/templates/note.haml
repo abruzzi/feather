@@ -1,5 +1,5 @@
-.well{:class => note.complete ? 'alert-success' : 'alert-info'}
+.well
   %p
-    = note.content
-  %p{:class => 'muted'}
-    = note.created_at
+    = model.get('content')
+  %p.muted
+    = model.get('created_at')

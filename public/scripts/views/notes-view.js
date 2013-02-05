@@ -1,10 +1,14 @@
 Feather.NotesView = Backbone.View.extend({
     initialize: function() {
-    
+        this.renderForm(); 
+        this.render();
     },
 
     renderForm: function() {
-    
+        var form = new Feather.FormView({
+            model: this.collection
+        });
+        this.$el.append(form.render().el); 
     },
 
     render: function() {
