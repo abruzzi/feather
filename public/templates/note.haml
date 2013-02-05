@@ -1,0 +1,5 @@
+.well{:class => note.complete ? 'alert-success' : 'alert-info'}
+  %p
+    = note.content
+  %p{:class => 'muted'}
+    = note.created_at

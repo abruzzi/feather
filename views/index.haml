@@ -3,8 +3,10 @@
     %span Signin with
     %ul.signin
       %li.btn.btn-info 
-        %img{:src => '/images/github.png'} signin with 
-        %b Github
+        %a{:href => '/auth/github'}
+          %img{:src => '/images/github.png'} signin with 
+          %b Github
       %li.btn.btn-info
-        %img{:src => '/images/google.png'} signin with
-        %b Google
+        %a{:href => '#'}
+          %img{:src => '/images/google.png'} signin with
+          %b Google

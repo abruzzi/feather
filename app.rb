@@ -139,7 +139,7 @@ module Feather
         get '/' do
             content_type :html
             if current_user != nil
-                redirect '/notes'
+                haml :home
             else
                 haml :index
             end
@@ -147,7 +147,7 @@ module Feather
 
         get '/logout' do
             session.clear
-            redirect '/login'
+            redirect '/'
         end
 
     end
