@@ -26,3 +26,8 @@ body {
 .navbar-inner .brand:hover{
     color: #999;
 }
+
+.content {
+    padding: 30px;
+    width: 800px;
+}

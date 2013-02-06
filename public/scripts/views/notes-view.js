@@ -1,7 +1,10 @@
 Feather.NotesView = Backbone.View.extend({
+    className: 'notes-container',
+
     initialize: function() {
         this.renderForm(); 
         this.render();
+        this.collection.on("add", this.render, this);
     },
 
     renderForm: function() {
@@ -12,6 +15,7 @@ Feather.NotesView = Backbone.View.extend({
     },
 
     render: function() {
+        this.$el.find('.note').remove();
         this.collection.each(function(item){
             this.renderNote(item);
         }, this);

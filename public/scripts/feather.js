@@ -9,4 +9,12 @@ $(document).ready(function(){
             }).el);
         }
     });
+
+    // var user_info = $("#userinfo");
+    // user_info.append(new Feather.UserInfoView({
+    //     model: {
+    //         name: 'juntao',
+    //         email: 'jtqiu@thoughtworks.com'
+    //     } 
+    // }).el);
 });

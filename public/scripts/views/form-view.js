@@ -1,6 +1,8 @@
 Feather.FormView = Backbone.View.extend({
+    tagName: 'section',
+
     events: {
-        'click .save': 'saveNote'
+        'click #save': 'saveNote'
     },
 
     render: function(){
@@ -22,7 +24,7 @@ Feather.FormView = Backbone.View.extend({
     },
 
     saveNote: function(event){
-        var contact = this.gatherNoteInfo(); 
-        this.model.add(contact); 
+        var note = this.gatherNoteInfo(); 
+        this.model.create(note); 
     }
 });
