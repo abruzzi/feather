@@ -110,10 +110,8 @@ module Feather
         put '/notes/:noteid', :check => :valid? do# {{{
             note = Note.get params[:noteid]
 
-            data = JSON.parse(request.body.read)
-
-            note.content = data[:content] || note.content
-            note.complete = data.has_key?("complete") ? data["complete"] : note.complete
+            note.content = params[:content] 
+            note.complete = params[:complete]
             note.updated_at = Time.now
             note.user = current_user
 
@@ -129,7 +127,8 @@ module Feather
             note = Note.get params[:noteid]
             if current_user == note.user
                 if note.destroy
-                    redirect "/users/#{user.id}/notes"
+                    {:note => note, :status => 'success'}.to_json
+                    redirect "/notes"
                 else
                     {:note => note, :status => 'failure'}.to_json
                 end

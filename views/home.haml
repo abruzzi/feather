@@ -1,5 +1,7 @@
 .content#content
-  %h2 Add notes here for remind
-  %section#add
-  .notes-container
-  .user-info#userinfo
+  %section#notes
+    %header#header
+      %input{id: 'new-note', placeholder: 'note here!', autofocus: 'autofocus', type: 'text'}
+      %hr{noshade: 'noshade'}
+    %section#main
+      %ul#note-list
