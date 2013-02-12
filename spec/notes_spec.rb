@@ -16,7 +16,7 @@ describe "notes model" do
     end
 
     it "creates a new note belongs to someone" do
-        user = User.new(:name => 'name', :email => 'test@domain.com', :password => 'pa$$w0rd')
+        user = User.new(:name => 'name', :email => 'test@domain.com')
         note = Note.new(:content => 'todo', :user => user)
         res = note.save
         res.should eql(true)

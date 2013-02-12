@@ -31,7 +31,9 @@
     .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container
-          %a.icon-leaf.brand{:href => '/'} Notes
+          %a.brand{:href => '/'}
+            %i.icon-leaf
+              Notes
           %a.brand.pull-right{:href => '#'}
             %i.icon-user
               = session[:user] ? session[:user] : 'login?'
