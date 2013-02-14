@@ -2,7 +2,7 @@ var feather = feather || {};
 
 $(function(){
     feather.AppView = Backbone.View.extend({
-        el: '#notes',
+        el: '#notes-list',
 
         events: {
             'keypress #new-note': 'createOnEnter'
@@ -20,8 +20,8 @@ $(function(){
         },
 
         render: function() {
-            var completed = feather.Notes.completed().length;
-            var remaining = feather.Notes.remaining().length;
+            // var completed = feather.Notes.completed().length;
+            // var remaining = feather.Notes.remaining().length;
 
             if (feather.Notes.length) {
                 this.$main.show();

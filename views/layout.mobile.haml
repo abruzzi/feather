@@ -6,9 +6,19 @@
     
     %link{:rel => 'stylesheet', :href => '/jquery.mobile/jquery.mobile-1.2.0.min.css'}
 
-    %script{:src => '/jquery.mobile/jquery-1.8.2.min.js'}
-    %script{:src => '/jquery.mobile/jquery.mobile-1.2.0.min.js'}
-    %script{:src => '/scripts/notes.js'}
+    %script{:src => '/scripts/jquery.mobile/jquery-1.8.2.min.js'}
+    %script{:src => '/scripts/jquery.mobile/jquery.mobile-1.2.0.min.js'}
+    %script{:src => '/scripts/lib/json2.js'}
+    %script{:src => '/scripts/lib/underscore.js'}
+    %script{:src => '/scripts/lib/underscore.string.js'}
+    %script{:src => '/scripts/lib/haml-1.1.js'}
+    %script{:src => '/scripts/lib/backbone.js'}
+
+    %script{:src => '/scripts/models/note.js'}
+    %script{:src => '/scripts/mobile/notes.js'}
+    %script{:src => '/scripts/mobile/app-view.js'}
+    %script{:src => '/scripts/mobile/feather.router.js'}
+    %script{:src => '/scripts/mobile/feather.main.js'}
   %body
     %div{:'data-role' => 'page'}
       %div{:'data-role' => 'header'}
