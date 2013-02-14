@@ -1,4 +1,3 @@
-%li.standard-note
-  %a{'data-url': '#note-edit', 'href': 'note-edit', 'data-params': model.get('id')}
-    .list-item-note
-      model.get('content')
+%a{'data-url': '#note-edit', 'href': '#note-edit', 'data-params': model.get('id')}
+  .list-item-note
+    = model.get('content')

@@ -1,4 +1,6 @@
-$(document).bind('mobileinit', function(){
+var feather = feather || {};
+
+$(document).bind('mobileinit', function() {
     $.mobile.ajaxEnabled = false;
     $.mobile.linkBindingEnabled = false;
     $.mobile.hashListeningEnabled = false;
@@ -10,6 +12,6 @@ $(document).bind('mobileinit', function(){
     });
 });
 
-$(document).ready(function(){
-    Backbone.history.start();
+$(document).ready(function() {
+    new feather.AppView();
 });

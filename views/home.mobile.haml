@@ -1,7 +1,8 @@
-.content
-  %h2 Add notes here
-  %section
-    %textarea#note{:name => 'content', :placeholder => 'note here...'}
-    %a#submit{:'data-role' => 'button', :'data-theme' => 'a', :rel => 'external'} Noting
-
-  .notes-container#notes-container
+#notes-list-page{:'data-role' => 'page', :'data-title' => 'feather'}
+  %div{:'data-role' => 'header', :'data-position' => 'fixed'}
+    %h1
+      Notes
+    %a.ui-btn-right{:'href' => '#note-edit', :'data-theme' => 'b', :'data-icon' => 'plus'}
+      New
+  #notes-list-content{:'data-role' => 'content'}
+    %ul#notes-list{:'data-role' => 'listview'}

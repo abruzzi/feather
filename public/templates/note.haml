@@ -1,8 +1,6 @@
 .note-item
-  -# %input{class: 'toggle', type: 'checkbox'}
   %i.toggle{class: model.get('complete') === true ? 'icon-check' : 'icon-check-empty' }
   %label
     = model.get('content')
   %i.destroy.icon-remove
-  -# %input{class: 'destroy', type: 'button', value: 'X'}
 %input{class: 'edit', type:'text', value: model.get('content')}

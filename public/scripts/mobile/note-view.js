@@ -2,7 +2,7 @@ var feather = feather || {};
 
 (function(){
     feather.NoteView = Backbone.View.extend({
-        el: '.standard-note',
+        tagName: 'li',
 
         render: function() {
             var func = haml.compileHaml({
