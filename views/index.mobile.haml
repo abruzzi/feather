@@ -1,8 +1,10 @@
 #notes-list-page{:'data-role' => 'page', :'data-title' => 'feather'}
   %div{:'data-role' => 'header', :'data-position' => 'fixed'}
     %h1
-      Notes
-    %a.ui-btn-right{:'href' => '#note-edit', :'data-theme' => 'b', :'data-icon' => 'plus'}
-      New
+      Signin
   #notes-list-content{:'data-role' => 'content'}
-    %ul#notes-list{:'data-role' => 'listview'}
+    Please login first:
+    %ul#notes-list{:'data-role' => 'listview', :'data-inset' => 'true'}
+      %li
+        %a{:href => '/auth/github'}
+          Signin with Github
