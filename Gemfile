@@ -3,18 +3,17 @@ source :rubygems
 gem 'sinatra'
 gem 'haml'
 
-gem 'rack-contrib'
-gem 'rack-flash3'
-
 gem 'omniauth'
 gem 'omniauth-github'
 
-gem 'datamapper'
-gem 'sqlite3'
-gem 'dm-sqlite-adapter'
+gem 'rack-contrib'
 
-gem 'pg'
-gem 'dm-postgres-adapter'
+gem 'datamapper'
+
+group :production do
+    gem 'pg'
+    gem 'dm-postgres-adapter'
+end
 
 group :test do
     gem 'sqlite3'

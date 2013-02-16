@@ -1,17 +1,18 @@
 require 'sinatra'
-require 'omniauth-github'
+require './lib/sinatra/mobile.rb'
 
-require 'rack/contrib'
+require 'omniauth-github'
 
 require 'haml'
 require 'data_mapper'
+
+require 'rack/contrib'
 
 require 'json'
 
 require './lib/user.rb'
 require './lib/notes.rb'
 
-require './lib/helper/mobile.rb'
 
 configure do
     DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/notes.db")
@@ -21,6 +22,7 @@ end
 module Feather
     class NoteApplication < Sinatra::Base
         use Rack::PostBodyContentTypeParser
+        helpers Sinatra::MobileHelper
 
         if not test?
             use Rack::Session::Cookie, :secret => 's3c23t'
@@ -61,7 +63,7 @@ module Feather
                 end
             end
         end
-
+        
         helpers do
             def valid?
                 session[:user] != nil
@@ -69,43 +71,6 @@ module Feather
 
             def current_user
                 User.first(:email => session[:user])
-            end
-            # Regexes to match identifying portions of UA strings from iPhone and Android
-            def mobile_user_agent_patterns
-                [
-                    /AppleWebKit.*Mobile/,
-                    /Android.*AppleWebKit/
-                ]
-            end
-
-            # Compares User Agent string against regexes of designated mobile devices
-            def mobile_request? 
-                mobile_user_agent_patterns.any? {|r| request.env['HTTP_USER_AGENT'] =~ r}
-            end
-
-            # If there is a mobile version of the view, use that. Otherwise revert to normal view
-            def mobile_file(name)
-                mobile_file = "#{options.views}/#{name}#{@mobile}.haml"
-                if File.exist? mobile_file
-                    view = "#{name}#{@mobile}"
-                else
-                    view = name
-                end
-            end
-
-            # Set up rendering for partials
-            def partial(name)
-                haml mobile_file("_#{name}").to_sym, :layout => false
-            end
-
-            # Render appropriate file, with mobile layout if needed
-            def deliver(name)
-                haml mobile_file(name).to_sym, :layout => :"layout#{@mobile}"
-            end
-
-
-            def authorised?
-                return session[:user] == nil?
             end
         end
 

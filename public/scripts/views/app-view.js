@@ -2,7 +2,7 @@ var feather = feather || {};
 
 $(function(){
     feather.AppView = Backbone.View.extend({
-        el: '#notes-list',
+        el: '#notes',
 
         events: {
             'keypress #new-note': 'createOnEnter'
