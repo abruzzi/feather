@@ -19,9 +19,34 @@ $(function(){
             feather.Notes.fetch();
         },
 
+        renderIndicator: function() {
+            var indicator = this.$('#indicator');
+            indicator.empty();
+
+            var completed = feather.Notes.completed().length;
+            var remaining = feather.Notes.remaining().length;
+
+            var comp = $('<span>')
+                .addClass('badge badge-success')
+                .text('completed: ' + completed);
+
+            var rema = $('<span>')
+                .addClass('badge badge-warning')
+                .text('remaining: ' + remaining);
+
+            comp.appendTo(indicator);
+            rema.appendTo(indicator);
+
+            if (feather.Notes.length) {
+                indicator.show();
+            } else {
+                indicator.hide();
+            }
+
+        },
+
         render: function() {
-            // var completed = feather.Notes.completed().length;
-            // var remaining = feather.Notes.remaining().length;
+            this.renderIndicator();
 
             if (feather.Notes.length) {
                 this.$main.show();
