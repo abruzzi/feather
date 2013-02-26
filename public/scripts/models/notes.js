@@ -14,6 +14,10 @@ var feather = feather || {};
 
         remaining: function() {
             return this.without.apply(this, this.completed()); 
+        },
+
+        comparator: function(note) {
+            return -new Date(note.get('updated_at')).getTime();
         }
     });
 

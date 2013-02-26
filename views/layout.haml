@@ -35,18 +35,7 @@
           %a.brand.pull-right{:href => '#'}
             %i.icon-user
               = session[:user] ? session[:user] : 'login?'
-          -# .btn-group.pull-right
-          -#   %a.btn.dropdown-toggle{:href => '#',  "data-toggle" => "dropdown"}
-          -#     %i.icon-user
-          -#     = session[:user] ? session[:user] : 'login?'
-          -#     %span.caret
-          -#   %ul.dropdown-menu
-          -#     %li
-          -#       %a{:href => '#'} Profile
-          -#     %li.divider
-          -#     %li
-          -#       %a{:href => '/logout'} Logout
-    .container
+    .notes-container
       = yield
 
     %footer.footer

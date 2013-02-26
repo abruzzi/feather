@@ -31,7 +31,7 @@ $(function(){
                 .text('completed: ' + completed);
 
             var rema = $('<span>')
-                .addClass('badge badge-warning')
+                .addClass('badge badge-important')
                 .text('remaining: ' + remaining);
 
             comp.appendTo(indicator);
