@@ -17,7 +17,8 @@ var feather = feather || {};
         },
 
         comparator: function(note) {
-            return -new Date(note.get('updated_at')).getTime();
+            var date = new Date(note.get('updated_at'));
+            return date.getTime();
         }
     });
 

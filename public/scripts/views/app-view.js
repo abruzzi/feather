@@ -57,7 +57,7 @@ $(function(){
 
         addOne: function(note) {
             var view = new feather.NoteView({model: note});
-            $('#note-list').append(view.render().el);
+            $('#note-list').prepend(view.render().el);
         },
 
         addAll: function() {
