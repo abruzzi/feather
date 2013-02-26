@@ -14,6 +14,7 @@ var feather = feather || {};
         },
 
         toggle: function(){
+            console.log(this);
             this.save({
                 complete: !this.get('complete')
             })

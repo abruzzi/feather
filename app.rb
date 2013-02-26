@@ -97,16 +97,18 @@ module Feather
 
         # create a new note for user
         post '/notes', :check => :valid? do
+            p params
             note = Note.create(:complete => params[:complete], 
                               :content => params[:content],
                               :created_at => Time.now,
                               :updated_at => Time.now,
                               :user => current_user)
             if note.save
-                {:note => note, :status => 'success'}.to_json
+                status 200
+                note.to_json
             else
-                p note.errors
-                {:note => note, :status => 'failure'}.to_json
+                status 500
+                note.to_json
             end
         end
 
@@ -120,9 +122,11 @@ module Feather
             note.user = current_user
 
             if note.save
-                {:note => note, :status => 'success'}.to_json
+                status 200
+                note.to_json
             else
-                {:note => note, :status => 'failure'}.to_json
+                status 500
+                note.to_json
             end
         end
 
@@ -131,10 +135,12 @@ module Feather
             note = Note.get params[:noteid]
             if current_user == note.user
                 if note.destroy
-                    {:note => note, :status => 'success'}.to_json
+                    status 200
+                    note.to_json
                     redirect "/notes"
                 else
-                    {:note => note, :status => 'failure'}.to_json
+                    status 500
+                    note.to_json
                 end
             end
         end
